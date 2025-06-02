@@ -28,7 +28,24 @@ pip uninstall datawhys_experimental_control
 
 ## Contributing
 
+- Andrew Olney
+
 ### Development install
+
+Creating a virtual environment is recommended:
+
+```
+    curl -L -O "https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-$(uname)-$(uname -m).sh"
+    bash Miniforge3-$(uname)-$(uname -m).sh
+
+    !!! Edit the environment.yml file to change the environment name as you like !!!
+
+    mamba env create -f environment.yml
+
+    /home/ubuntu/miniforge3/bin/mamba init
+
+    mamba activate <NAME>
+```
 
 Note: You will need NodeJS to build the extension package.
 
@@ -55,6 +72,8 @@ jlpm watch
 # Run JupyterLab in another terminal
 jupyter lab
 ```
+
+*The watch.sh script runs JupyterLab in watch mode with the Chrome browser*
 
 With the watch command running, every saved change will immediately be built locally and available in your running JupyterLab. Refresh JupyterLab to load the change in your browser (you may need to wait several seconds for the extension to be rebuilt).
 
