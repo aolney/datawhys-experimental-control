@@ -6,6 +6,29 @@
 
 A JupyterLab extension that locks down the user interface and provides additional controls for running experiments using the JupyterLab platform. It is not configurable but may serve as an example for other projects.
 
+## How to use
+
+- Install the extension (see below)
+- Append `lock=1` to the URL query string to lock out parts of the JLab interface
+- Append `qualtrics=1` to the URL query string if you want the user to sequentially navigate notebooks from qualtrics questions
+
+If the `lock` parameter is not set, the extension will not be active.
+
+The following `lock` behaviors are implemented:
+
+- Left navbar collapsed (e.g. file explorer)
+- Left navbar hidden
+- Launcher and terminal tabs hidden
+- Notebook tab close button disabled
+- Bottom status bar hidden
+- Auto renders markdown in case users accidentally double click
+
+The following `qualtrics` behavior are implemented
+
+- For WE/PS1, checks the expected number of code cells have been executed before giving password
+
+**Qualtrics integration:** Have a qualtrics question with a link to the notebook and a text entry box. Put a validator on the text entry box for the password returned by the extension. During the survey, the link out will take the participant to a JHub with the extension installed. When they complete a notebook, a link will appear giving them a password to enter on the Qualtrics side. Once they enter the password, Qualtrics will let them advance to the next question.
+
 ## Requirements
 
 - JupyterLab >= 4.0.0
