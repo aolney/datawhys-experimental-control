@@ -3,11 +3,16 @@ import {
   JupyterFrontEndPlugin,
   LabShell,
 } from "@jupyterlab/application";
-import IRenderMimeRegistry from "@jupyterlab/rendermime";
+// import IRenderMimeRegistry from "@jupyterlab/rendermime";
 import { INotebookTracker, NotebookPanel } from "@jupyterlab/notebook";
 import $ from "jquery";
-import { CodeCellModel, MarkdownCell, MarkdownCellModel, Cell } from "@jupyterlab/cells";
+import { CodeCellModel, MarkdownCell } from "@jupyterlab/cells";
 import { IDocumentManager } from "@jupyterlab/docmanager";
+
+// EXAMPLE TEST LINK
+// Note the lock and qualtrics params
+// http://localhost:8888/lab/tree/E1/we-co-na.ipynb?reset&lock=1&qualtrics=1
+
 
 //TODO notes
 //- propose ripping out anything stateful. Pass all that in via query params
@@ -101,10 +106,9 @@ const generateLinks = (
 
   if (notebookModel) {
     try {
-      doesInternalLinkExist = notebookModel.cells
-        .get(0)
-        .toJSON()
-        .source[0].includes(viewWeTitle);
+      let first_cell = notebookModel.cells.get(0);
+      let first_cell_json_source = first_cell.toJSON().source;//[0];
+      doesInternalLinkExist =  first_cell_json_source.includes(viewWeTitle);
     } catch (err) {
       console.log(err);
     }
@@ -136,8 +140,9 @@ const generateLinks = (
         link = `<span style="font-size:16pt;">[${viewWeTitle}](we-co-na.ipynb)</span>`;
       }
     }
+    // For PS1, adds link to WE at top
     if (notebook) {
-      notebook.context.model.sharedModel.addCell({
+      notebook.context.model.sharedModel.insertCell(0, {
         cell_type: "markdown",
         source: [link],
         metadata: {
@@ -201,7 +206,9 @@ const generateLinks = (
         Promise.all(savePromises).then(() => window.location.replace(hubLink));
       }
     });
-    const $notebook = $(".jp-NotebookPanel-notebook");
+    // JLab 1.2.x attachement point; requires scroll into view in Jlab 4.x
+    // const $notebook = $(".jp-NotebookPanel-notebook");
+    const $notebook = $(".jp-WindowedPanel-outer");
     $notebook.append($link);
   }
 };
