@@ -1,6 +1,6 @@
 {
     "name": "datawhys_experimental_control",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "A JupyterLab extension that locks down the user interface and provides additional controls for running experiments using the JupyterLab platform. It is not configurable but may serve as an example for other projects.",
     "keywords": [
         "jupyter",

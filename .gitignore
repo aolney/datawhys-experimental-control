@@ -1,4 +1,5 @@
 E1/
+dev_test/
 *.bundle.*
 lib/
 node_modules/

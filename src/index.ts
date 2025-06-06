@@ -108,7 +108,7 @@ const generateLinks = (
     try {
       let first_cell = notebookModel.cells.get(0);
       let first_cell_json_source = first_cell.toJSON().source;//[0];
-      doesInternalLinkExist =  first_cell_json_source.includes(viewWeTitle);
+      doesInternalLinkExist = first_cell_json_source.includes(viewWeTitle);
     } catch (err) {
       console.log(err);
     }
@@ -229,6 +229,7 @@ const extension: JupyterFrontEndPlugin<void> = {
   ) => {
     const urlParams = new URLSearchParams(window.location.search);
     const lockParam = urlParams.get("lock");
+    const agentImageParam = urlParams.get("personalagent");
 
     if (lockParam === "1") {
       console.log("JupyterLab extension datawhys_experimental_control is activated!");
@@ -324,7 +325,27 @@ const extension: JupyterFrontEndPlugin<void> = {
               $("#external-link").show();
             }
           }
-          //
+          // 6/6/2025, Farshid thesis experiment
+          // He was using getElementById in the metadata extension to swap out images dynamically.
+          // It looks like the React backing of JLab 4 is affecting the lifecycle of the DOM such that
+          // images lower in the page return null with getElementById even after their onload events have fired
+          // It seems the best way to get the old behavior is to use id tags, e.g. agent-img-x, check these continuously,
+          // and set the src appropriately if it is not correct
+          // if agent image param is set
+          if (agentImageParam != null) {
+            // iterate over 5 images
+            for (let i = 1; i <= 5; i++) {
+              let element = document.getElementById(`agent-img-${i}`);
+              // if one exists
+              if (element) {
+                let agent_image = element as HTMLImageElement;
+                // change its src
+                if (agent_image.src == "") {
+                  agent_image.src = 'https://ffarzan.com/wp-content/uploads/2025/03/jup-' + agentImageParam + `-${i}.jpg`;
+                }
+              }
+            }
+          }
         }, 1000);
       });
 
