@@ -249,9 +249,13 @@ const extension: JupyterFrontEndPlugin<void> = {
 
         //Wes: why set a timer here; why not wait for currentChanged as below?
         setInterval(function () {
-          $(".p-TabBar-tabCloseIcon").hide();
+          //prevent adding new notebooks
+          $(".lm-TabBar-addButton").hide();
+          // $(".p-TabBar-tabCloseIcon").hide();
+          $(".lm-TabBar-tabCloseIcon").hide();
           let workedExampleEligible = true;
-          $(".p-TabBar-tab").each(function (idx) {
+          // $(".p-TabBar-tab").each(function (idx) {
+          $(".lm-TabBar-tab").each(function (idx) {
             let $currentTabParent = $(this);
             let $currentTab = $currentTabParent[0];
             let $innerText = $currentTab.innerText;
@@ -260,7 +264,8 @@ const extension: JupyterFrontEndPlugin<void> = {
             }
           });
 
-          $(".p-TabBar-tab").each(function (idx) {
+          // $(".p-TabBar-tab").each(function (idx) {
+          $(".lm-TabBar-tab").each(function (idx) {
             let $currentTabParent = $(this);
             let $currentTab = $currentTabParent[0];
             let $innerText = $currentTab.innerText;
@@ -324,6 +329,9 @@ const extension: JupyterFrontEndPlugin<void> = {
             if (allCodeCellsAttempted) {
               $("#external-link").show();
             }
+          // WE and PS1 are worked example eligible; if we are on a non-eligible notebook, show link
+          } else {
+            $("#external-link").show();
           }
           // 6/6/2025, Farshid thesis experiment
           // He was using getElementById in the metadata extension to swap out images dynamically.
